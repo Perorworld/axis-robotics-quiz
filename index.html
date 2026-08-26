@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Axis Robotics: The Basics Quiz</title>
   
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500'><rect width='500' height='500' fill='%23000000'/><g fill='%23ffffff'><rect x='230' y='65' width='40' height='370' rx='5'/><rect x='65' y='230' width='370' height='40' rx='5'/><rect x='65' y='230' width='370' height='40' rx='5' transform='rotate(30 250 250)'/><rect x='230' y='65' width='40' height='370' rx='5' transform='rotate(60 250 250)'/><rect x='230' y='65' width='40' height='370' rx='5' transform='rotate(120 250 250)'/><rect x='230' y='65' width='40' height='370' rx='5' transform='rotate(150 250 250)'/></g></svg>" />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -127,7 +125,6 @@
       background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
     }
 
-    /* Top Opening Banner Container */
     .hero-banner-container {
       width: 100%;
       height: 220px;
@@ -426,11 +423,9 @@
 
   <div id="app-container">
 
-    <!-- SCREEN 1: LANDING PAGE -->
     <div id="screen-landing" class="screen active">
       <div class="glass-card">
         
-        <!-- Opening Logo Banner (First Image) -->
         <div class="hero-banner-container">
           <img id="banner-img-element" class="hero-banner-img" alt="Axis Robotics Flag Banner" />
         </div>
@@ -455,7 +450,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 2: X USERNAME SIGNUP -->
     <div id="screen-signup" class="screen">
       <div class="glass-card">
         <div class="logo-box">
@@ -479,7 +473,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 3: QUIZ INTERFACE -->
     <div id="screen-quiz" class="screen">
       <div class="glass-card">
         <div class="quiz-header">
@@ -503,7 +496,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 4: RESULTS & CANVAS DYNAMIC CARD -->
     <div id="screen-result" class="screen">
       <canvas id="result-canvas" width="1200" height="675" style="display: none;"></canvas>
       <img id="result-card-preview" class="generated-card-preview" alt="Axis Robotics Quiz Card" />
@@ -530,7 +522,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 5: ADMIN LOGIN -->
     <div id="screen-admin-login" class="screen">
       <div class="glass-card">
         <h2 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 8px; color: var(--accent-cyan);">ADMIN ACCESS</h2>
@@ -547,7 +538,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 6: ADMIN DASHBOARD (QUESTION MANAGER) -->
     <div id="screen-admin-dash" class="screen">
       <div class="glass-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -598,11 +588,9 @@
   <script>
     const ADMIN_PASSCODE = "admin123";
 
-    // 1. FIRST IMAGE (FLAG BANNER LOGO FOR OPENING HERO BANNER)
-    const OPENING_FLAG_LOGO = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 450' width='1200' height='450'><rect width='1200' height='450' fill='%230a0d14'/><g opacity='0.25'><path d='M0,0 L1200,450 M1200,0 L0,450' stroke='%2300f0ff' stroke-width='2'/></g><rect x='200' y='60' width='800' height='330' rx='16' fill='%23000000' stroke='%23333333' stroke-width='4'/><g fill='%23ffffff'><path d='M350,225 L290,225 M350,225 L410,225 M350,225 L350,165 M350,225 L350,285 M350,225 L308,183 M350,225 L392,267 M350,225 L392,183 M350,225 L308,267' stroke='%23ffffff' stroke-width='8' stroke-linecap='round'/></g><text x='440' y='210' font-family='sans-serif' font-weight='900' font-size='54' fill='%23ffffff' letter-spacing='4'>AXIS</text><text x='440' y='270' font-family='sans-serif' font-weight='900' font-size='54' fill='%23ffffff' letter-spacing='4'>ROBOTICS</text><text x='440' y='320' font-family='sans-serif' font-weight='700' font-size='22' fill='%23cccccc' letter-spacing='6'>THE FUTURE IS ROBOTICS</text></svg>";
-
-    // 2. SECOND IMAGE (FUTURISTIC ROBOT CITY FOR PAGE BACKGROUND & CERTIFICATE CARD)
-    const ROBOT_CITY_BG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 675' width='1200' height='675'><defs><linearGradient id='bgGrad' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%2305070c'/><stop offset='50%' stop-color='%230b1326'/><stop offset='100%' stop-color='%23030509'/></linearGradient></defs><rect width='1200' height='675' fill='url(%23bgGrad)'/><g opacity='0.15'><path d='M0,100 L1200,100 M0,200 L1200,200 M0,300 L1200,300 M0,400 L1200,400 M0,500 L1200,500' stroke='%2300f0ff' stroke-width='1'/><path d='M200,0 L200,675 M400,0 L400,675 M600,0 L600,675 M800,0 L800,675 M1000,0 L1000,675' stroke='%2300f0ff' stroke-width='1'/></g><g transform='translate(600, 320)'><circle r='180' fill='none' stroke='%2300f0ff' stroke-width='2' opacity='0.4'/><circle r='120' fill='none' stroke='%237000ff' stroke-width='3' opacity='0.6'/><path d='M-150,0 L150,0 M0,-150 L0,150' stroke='%2300f0ff' stroke-width='2' opacity='0.5'/><rect x='-60' y='-80' width='120' height='160' rx='10' fill='none' stroke='%2300f0ff' stroke-width='4'/><circle cx='-25' cy='-40' r='12' fill='%2300f0ff'/><circle cx='25' cy='-40' r='12' fill='%2300f0ff'/><path d='M-30,20 L30,20' stroke='%2300f0ff' stroke-width='4'/><path d='M-90,-20 L-60,-20 M60,-20 L90,-20' stroke='%2300f0ff' stroke-width='4'/><circle cx='-100' cy='-20' r='6' fill='%2300ff66'/><circle cx='100' cy='-20' r='6' fill='%2300ff66'/></g><text x='600' y='550' text-anchor='middle' font-family='sans-serif' font-weight='900' font-size='32' fill='%23ffffff' letter-spacing='6'>AXIS ROBOTICS CITY</text></svg>";
+    // DIRECT LOCAL FILE REFERENCES
+    const OPENING_FLAG_LOGO = "logo.jpg";
+    const ROBOT_CITY_BG = "bg.jpg";
 
     const ADVANCED_QUESTIONS = [
       {
@@ -821,13 +809,11 @@
     };
 
     function initPageGraphics() {
-      // Set First Image (Flag Logo) to top hero banner
       const bannerImg = document.getElementById('banner-img-element');
       if (bannerImg) {
         bannerImg.src = OPENING_FLAG_LOGO;
       }
       
-      // Set Second Image (Robot City) to page background
       document.body.style.setProperty('--bg-img-url', `url("${ROBOT_CITY_BG}")`);
       document.body.classList.add('has-bg');
     }
@@ -996,13 +982,17 @@
       const bgImg = new Image();
       bgImg.src = ROBOT_CITY_BG;
 
-      bgImg.onload = () => {
+      const drawCard = () => {
         ctx.fillStyle = "#07090e";
         ctx.fillRect(0, 0, 1200, 675);
 
         ctx.save();
         ctx.globalAlpha = 0.45;
-        ctx.drawImage(bgImg, 0, 0, 1200, 675);
+        try {
+          ctx.drawImage(bgImg, 0, 0, 1200, 675);
+        } catch (e) {
+          // Fallback if background image hasn't loaded
+        }
         ctx.restore();
 
         ctx.strokeStyle = "#00f0ff";
@@ -1023,7 +1013,11 @@
         ctx.strokeStyle = "rgba(0, 240, 255, 0.6)";
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.roundRect(60, 160, 450, 70, 12);
+        if (ctx.roundRect) {
+          ctx.roundRect(60, 160, 450, 70, 12);
+        } else {
+          ctx.rect(60, 160, 450, 70);
+        }
         ctx.fill();
         ctx.stroke();
 
@@ -1047,7 +1041,11 @@
         ctx.strokeStyle = "#00ff66";
         ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.roundRect(60, 410, 200, 50, 8);
+        if (ctx.roundRect) {
+          ctx.roundRect(60, 410, 200, 50, 8);
+        } else {
+          ctx.rect(60, 410, 200, 50);
+        }
         ctx.fill();
         ctx.stroke();
 
@@ -1068,6 +1066,13 @@
 
         navigateToScreen('screen-result');
       };
+
+      if (bgImg.complete) {
+        drawCard();
+      } else {
+        bgImg.onload = drawCard;
+        bgImg.onerror = drawCard;
+      }
     }
 
     function verifyAdminPass() {
@@ -1157,9 +1162,7 @@
               files: [file]
             });
           }
-        } catch (e) {
-          // Fallback if native share fails
-        }
+        } catch (e) {}
       } else {
         showToast("X web intent opened! Image downloaded to attach.");
         document.getElementById('btn-download-card').click();
