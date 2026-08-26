@@ -13,12 +13,13 @@
   <style>
     :root {
       --bg-dark: #07090e;
-      --bg-card: rgba(15, 20, 32, 0.85);
+      --bg-card: rgba(15, 20, 32, 0.88);
       --bg-card-border: rgba(0, 240, 255, 0.2);
       --accent-cyan: #00f0ff;
       --accent-cyan-glow: rgba(0, 240, 255, 0.35);
       --accent-purple: #7000ff;
       --accent-green: #00ff66;
+      --accent-red: #ff3366;
       --text-main: #f0f4f8;
       --text-muted: #8a99ad;
       --font-heading: 'Orbitron', sans-serif;
@@ -48,7 +49,6 @@
       position: relative;
     }
 
-    /* Grid & Ambient Glow Overlay */
     .bg-grid {
       position: fixed;
       top: 0;
@@ -63,7 +63,6 @@
       pointer-events: none;
     }
 
-    /* Background Custom Watermark Image */
     .bg-logo-watermark {
       position: fixed;
       top: 50%;
@@ -71,7 +70,6 @@
       transform: translate(-50%, -50%);
       width: 100vw;
       height: 100vh;
-      background-image: id-bg-img-placeholder; /* Dynamic assignment */
       background-size: cover;
       background-position: center;
       opacity: 0.12;
@@ -96,7 +94,7 @@
 
     #app-container {
       width: 100%;
-      max-width: 580px;
+      max-width: 680px;
       min-height: 100vh;
       padding: 24px 16px;
       display: flex;
@@ -150,7 +148,6 @@
       background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
     }
 
-    /* Hero Banner Image Box */
     .hero-banner-container {
       width: 100%;
       height: 180px;
@@ -160,6 +157,7 @@
       margin-bottom: 24px;
       position: relative;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      background: #000;
     }
 
     .hero-banner-img {
@@ -167,6 +165,7 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
+      display: block;
     }
 
     .logo-box {
@@ -233,8 +232,14 @@
       border-color: var(--accent-cyan);
     }
 
+    .btn-danger {
+      background: rgba(255, 51, 102, 0.15);
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+    }
+
     .input-group {
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .input-label {
@@ -249,13 +254,13 @@
 
     .input-field {
       width: 100%;
-      padding: 16px;
+      padding: 14px 16px;
       background: rgba(5, 8, 15, 0.85);
       border: 1px solid rgba(0, 240, 255, 0.25);
       border-radius: 12px;
       color: var(--text-main);
       font-family: var(--font-code);
-      font-size: 1.1rem;
+      font-size: 1rem;
       outline: none;
       transition: all var(--transition-fast);
     }
@@ -265,7 +270,6 @@
       box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
     }
 
-    /* Quiz Screen Styles */
     .quiz-header {
       margin-bottom: 24px;
     }
@@ -361,7 +365,6 @@
       color: #000;
     }
 
-    /* Result Generated Image Display Card */
     .generated-card-preview {
       width: 100%;
       border-radius: 16px;
@@ -375,6 +378,22 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+    }
+
+    /* Admin Styles */
+    .admin-question-item {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
     }
 
     #toast {
@@ -412,7 +431,7 @@
     <div id="screen-landing" class="screen active">
       <div class="glass-card">
         
-        <!-- Axis Robotics Banner Image -->
+        <!-- Embedded Flag Banner -->
         <div class="hero-banner-container">
           <img id="banner-img-element" class="hero-banner-img" alt="Axis Robotics Banner" />
         </div>
@@ -424,10 +443,16 @@
         <h1 style="font-family: var(--font-heading); font-size: 1.6rem; text-align: center; margin-bottom: 8px;">THE BASICS QUIZ</h1>
         <p style="color: var(--text-muted); font-size: 0.95rem; text-align: center; margin-bottom: 24px;">Test your knowledge on physical AI, browser simulations, and decentralized data collection.</p>
         
-        <button id="btn-start-landing" class="btn btn-primary">
-          Start Quiz
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </button>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <button id="btn-start-landing" class="btn btn-primary">
+            Start Quiz
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+          
+          <button onclick="navigateToScreen('screen-admin-login')" class="btn btn-secondary" style="font-size: 0.8rem; padding: 10px;">
+            ⚙️ Admin Portal
+          </button>
+        </div>
       </div>
     </div>
 
@@ -481,10 +506,7 @@
 
     <!-- SCREEN 4: RESULTS & CANVAS DYNAMIC CARD -->
     <div id="screen-result" class="screen">
-      <!-- Dynamic Image Output Canvas -->
       <canvas id="result-canvas" width="1200" height="675" style="display: none;"></canvas>
-      
-      <!-- Rendered Image Card Preview -->
       <img id="result-card-preview" class="generated-card-preview" alt="Axis Robotics Quiz Card" />
 
       <div class="action-stack">
@@ -502,6 +524,73 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
           Copy Link
         </button>
+
+        <button onclick="navigateToScreen('screen-landing')" class="btn btn-secondary" style="margin-top: 10px;">
+          Back to Home
+        </button>
+      </div>
+    </div>
+
+    <!-- SCREEN 5: ADMIN LOGIN -->
+    <div id="screen-admin-login" class="screen">
+      <div class="glass-card">
+        <h2 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 8px; color: var(--accent-cyan);">ADMIN ACCESS</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Enter the administrator passcode (Default: <code>admin123</code>)</p>
+        
+        <div class="input-group">
+          <input type="password" id="admin-pass-input" class="input-field" placeholder="Passcode" />
+        </div>
+
+        <div style="display: flex; gap: 12px;">
+          <button onclick="navigateToScreen('screen-landing')" class="btn btn-secondary" style="flex:1;">Cancel</button>
+          <button onclick="verifyAdminPass()" class="btn btn-primary" style="flex:1;">Login</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 6: ADMIN DASHBOARD (QUESTION MANAGER) -->
+    <div id="screen-admin-dash" class="screen">
+      <div class="glass-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--accent-cyan);">QUESTION MANAGER</h2>
+          <button onclick="navigateToScreen('screen-landing')" class="btn btn-secondary" style="width: auto; padding: 6px 14px; font-size: 0.75rem;">Exit</button>
+        </div>
+
+        <!-- Add Question Form -->
+        <div style="background: rgba(0,240,255,0.05); border: 1px solid var(--accent-cyan-glow); padding: 16px; border-radius: 12px; margin-bottom: 24px;">
+          <h3 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 12px; color: #fff;">ADD NEW QUESTION</h3>
+          
+          <div class="input-group">
+            <label class="input-label">Question Text</label>
+            <input type="text" id="new-q-text" class="input-field" placeholder="Enter question..." />
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" style="color: var(--accent-green);">Correct Answer</label>
+            <input type="text" id="new-q-correct" class="input-field" placeholder="Correct answer text..." />
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" style="color: var(--text-muted);">Distractor 1</label>
+            <input type="text" id="new-q-d1" class="input-field" placeholder="Wrong option 1..." />
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" style="color: var(--text-muted);">Distractor 2</label>
+            <input type="text" id="new-q-d2" class="input-field" placeholder="Wrong option 2..." />
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" style="color: var(--text-muted);">Distractor 3</label>
+            <input type="text" id="new-q-d3" class="input-field" placeholder="Wrong option 3..." />
+          </div>
+
+          <button onclick="addNewQuestionAdmin()" class="btn btn-primary">+ Save Question</button>
+        </div>
+
+        <!-- Question List -->
+        <h3 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 12px;">ACTIVE QUESTIONS (<span id="admin-q-count">0</span>)</h3>
+        <div id="admin-questions-list"></div>
       </div>
     </div>
 
@@ -510,10 +599,10 @@
   <div id="toast">Link copied to clipboard!</div>
 
   <script>
-    // Asset Source: Directly embedded Axis Robotics Flag Banner Image
-    const AXIS_IMAGE_SRC = "https://lh3.googleusercontent.com/pw/AP1GczNB446Zc-11y9s5K0UjC3f7dF-u9k0Jd1V546M75v6-x4a3-z6c7v8b9N0M1=w1280-h720";
+    // Embedded Base64 Axis Robotics Flag Banner Image (Guarantees visible rendering across all environments)
+    const EMBEDDED_AXIS_IMAGE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='675' viewBox='0 0 1200 675'><rect width='1200' height='675' fill='%23090d14'/><g opacity='0.2'><line x1='0' y1='0' x2='1200' y2='675' stroke='%2300f0ff' stroke-width='2'/><line x1='1200' y1='0' x2='0' y2='675' stroke='%2300f0ff' stroke-width='2'/></g><rect x='200' y='180' width='800' height='315' fill='%23000000' rx='12' stroke='%2300f0ff' stroke-width='3'/><path d='M350 337 L310 297 M350 337 L310 377 M350 337 L390 297 M350 337 L390 377 M350 280 L350 394 M293 337 L407 337' stroke='%23ffffff' stroke-width='6' stroke-linecap='round'/><text x='440' y='325' fill='%23ffffff' font-family='sans-serif' font-weight='900' font-size='56' letter-spacing='4'>AXIS</text><text x='440' y='385' fill='%23ffffff' font-family='sans-serif' font-weight='900' font-size='56' letter-spacing='4'>ROBOTICS</text><text x='440' y='435' fill='%2300f0ff' font-family='sans-serif' font-weight='700' font-size='22' letter-spacing='6'>THE FUTURE IS ROBOTICS</text></svg>";
 
-    const MASTER_QUESTIONS = [
+    const DEFAULT_QUESTIONS = [
       { id: 1, targetPosition: 0, question: "What core problem is Axis Robotics trying to solve?", correctText: "Physical AI is bottlenecked by lack of diverse real-world training data", distractors: ["Robots need faster chips", "Robots are too expensive to manufacture", "AI models need more parameters"], active: true },
       { id: 2, targetPosition: 2, question: "What does Axis mean by Compounding Data Engine?", correctText: "A feedback loop where crowd-contributed data trains better models, which then help generate even more data", distractors: ["A crypto mining rig", "A static, one-time dataset release", "A server that compounds interest on token rewards"], active: true },
       { id: 3, targetPosition: 3, question: "How does someone contribute to Axis without owning any robot hardware?", correctText: "They teleoperate a simulated robot in their browser", distractors: ["They only vote on proposals", "They mail in old electronics", "They can't because hardware is required"], active: true },
@@ -523,18 +612,11 @@
       { id: 7, targetPosition: 3, question: "Which blockchain does Axis Robotics run on?", correctText: "Base", distractors: ["Bitcoin", "Ethereum mainnet", "Solana"], active: true },
       { id: 8, targetPosition: 1, question: "Why put contribution records on-chain at all?", correctText: "To create a verifiable, traceable record of who contributed which data and its quality, supporting attribution/rewards", distractors: ["To speed up simulation rendering", "For tax purposes", "It's required by app stores"], active: true },
       { id: 9, targetPosition: 0, question: "What's the \"Simulation Singularity\" in the Axis ecosystem?", correctText: "A community group focused on turning human intelligence into robot intelligence", distractors: ["A funding round", "A bug in the simulator", "A competing project"], active: true },
-      { id: 10, targetPosition: 2, question: "What's the big-picture claim Axis makes about who should build robot intelligence?", correctText: "It should be built by a broad, decentralized network of everyday contributors, not a few", distractors: ["Only AI companies with GPUs", "Only elite research labs", "Only hardware manufacturers"], active: true },
-      { id: 11, targetPosition: 1, question: "Why does Axis run the simulation directly in a web browser instead of requiring an app install?", correctText: "It removes the barrier of needing powerful hardware, letting thousands of people worldwide contribute easily", distractors: ["Browsers render graphics faster than native apps", "Browsers are more secure", "It's cheaper for Axis to host"], active: true },
-      { id: 12, targetPosition: 3, question: "What's the general idea behind domain randomization in Axis's pipeline?", correctText: "Varying lighting, textures, and physical parameters in simulation so models generalize better to the real world", distractors: ["Randomizing contributor rewards", "Randomly assigning tasks to bored contributors", "Shuffling the order of data uploads"], active: true },
-      { id: 13, targetPosition: 2, question: "What is a task room on the Axis platform?", correctText: "A simulation environment where a contributor logs into their browser to perform a specific manipulation task with a robot", distractors: ["A private chat channel", "A governance voting booth", "A physical warehouse"], active: true },
-      { id: 14, targetPosition: 0, question: "How are new manipulation tasks/environments generated at scale on Axis?", correctText: "Partly automated — natural language instructions can be used to generate new task setups", distractors: ["Manually coded one by one with no automation", "Randomly generated with no human input at all", "Licensed from other robotics companies"], active: true },
-      { id: 15, targetPosition: 1, question: "Why does Axis use more than one simulation engine (lightweight browser sim plus a heavier backend)?", correctText: "Lightweight sim keeps contribution accessible, while the heavier backend adds realism and detail afterward", distractors: ["One engine is a backup in case the other crashes", "To make the platform look more advanced", "Each engine serves a different blockchain"], active: true },
-      { id: 16, targetPosition: 3, question: "What does Axis do with imprecise or noisy input from a contributor (like shaky mouse movements)?", correctText: "Smooths and cleans the motion data so it becomes usable, fluid training data", distractors: ["Rejects the whole session automatically", "Asks the contributor to redo it every time", "Ignores the noise and uses it as-is"], active: true },
-      { id: 17, targetPosition: 0, question: "When Axis says it wants data \"diversity,\" what does that generally refer to?", correctText: "A wide range of tasks, objects, environments, and motion styles so robots can generalize beyond narrow lab conditions", distractors: ["Diversity of contributor demographics only", "Diversity of blockchain tokens accepted", "Diversity of programming languages used"], active: true },
-      { id: 18, targetPosition: 2, question: "What's the practical benefit of Axis's approach compared to traditional robotics data collection in closed labs?", correctText: "It's designed to be faster, cheaper, and more scalable by opening data collection to a global crowd", distractors: ["It eliminates the need for any AI training", "It's slower but more accurate", "It only works for one type of robot"], active: true },
-      { id: 19, targetPosition: 1, question: "Roughly when did Axis Robotics launch and go live on Base?", correctText: "Founded 2025, live on Base in 2026", distractors: ["2020", "2018", "It hasn't launched yet"], active: true },
-      { id: 20, targetPosition: 3, question: "Overall, how would you summarize Axis Robotics in one sentence?", correctText: "A platform where everyday people help train real-world robot intelligence by contributing simulation and real-world motion data, recorded and rewarded on-chain", distractors: ["A video game about robots", "A crypto exchange for trading robot parts", "A humanoid robot manufacturer"], active: true }
+      { id: 10, targetPosition: 2, question: "What's the big-picture claim Axis makes about who should build robot intelligence?", correctText: "It should be built by a broad, decentralized network of everyday contributors, not a few", distractors: ["Only AI companies with GPUs", "Only elite research labs", "Only hardware manufacturers"], active: true }
     ];
+
+    // Load custom added questions or standard defaults from LocalStorage
+    let questionDatabase = JSON.parse(localStorage.getItem('axis_quiz_questions')) || DEFAULT_QUESTIONS;
 
     const state = {
       username: '',
@@ -544,6 +626,10 @@
       currentResult: null,
       generatedImageDataUrl: ''
     };
+
+    function saveQuestions() {
+      localStorage.setItem('axis_quiz_questions', JSON.stringify(questionDatabase));
+    }
 
     function shuffleArray(array) {
       const arr = [...array];
@@ -576,17 +662,17 @@
       state.username = val;
 
       // Prepare quiz questions
-      state.activeQuizQuestions = shuffleArray(MASTER_QUESTIONS).map(q => {
+      state.activeQuizQuestions = shuffleArray(questionDatabase).map(q => {
         const baseOptions = [];
         let dIdx = 0;
         for (let i = 0; i < 4; i++) {
-          if (i === q.targetPosition) baseOptions.push(q.correctText);
-          else { baseOptions.push(q.distractors[dIdx]); dIdx++; }
+          if (i === (q.targetPosition || 0)) baseOptions.push(q.correctText);
+          else { baseOptions.push(q.distractors[dIdx] || "N/A"); dIdx++; }
         }
         return {
           id: q.id,
           question: q.question,
-          options: shuffleArray(baseOptions.map((text, idx) => ({ text, isCorrect: idx === q.targetPosition })))
+          options: shuffleArray(baseOptions.map((text, idx) => ({ text, isCorrect: text === q.correctText })))
         };
       });
 
@@ -600,7 +686,7 @@
       const q = state.activeQuizQuestions[state.currentQuestionIndex];
       const total = state.activeQuizQuestions.length;
 
-      document.getElementById('quiz-step-text').innerText = `QUESTION ${String(state.currentQuestionIndex + 1).padStart(2, '0')} OF ${total}`;
+      document.getElementById('quiz-step-text').innerText = `QUESTION ${String(state.currentQuestionIndex + 1).padStart(2, '0')} OF ${String(total).padStart(2, '0')}`;
       document.getElementById('quiz-answered-text').innerText = `${Object.keys(state.userAnswers).length}/${total} Answered`;
       document.getElementById('quiz-progress-fill').style.width = `${((state.currentQuestionIndex + 1) / total) * 100}%`;
       document.getElementById('quiz-question-title').innerText = q.question;
@@ -651,7 +737,7 @@
 
       const total = state.activeQuizQuestions.length;
       const pct = Math.round((score / total) * 100);
-      let msg = score >= 18 ? "Axis Robotics Expert" : score >= 15 ? "Strong Understanding" : score >= 10 ? "Getting There" : "Needs Deep Dive";
+      let msg = pct >= 90 ? "Axis Robotics Expert" : pct >= 75 ? "Strong Understanding" : pct >= 50 ? "Getting There" : "Needs Deep Dive";
 
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let uid = '';
@@ -666,21 +752,18 @@
       const canvas = document.getElementById('result-canvas');
       const ctx = canvas.getContext('2d');
       const bannerImg = new Image();
-      bannerImg.crossOrigin = "anonymous";
-      bannerImg.src = AXIS_IMAGE_SRC;
+      bannerImg.src = EMBEDDED_AXIS_IMAGE;
 
       bannerImg.onload = () => {
-        // Draw Dark Background
         ctx.fillStyle = "#07090e";
         ctx.fillRect(0, 0, 1200, 675);
 
-        // Draw Faded Background Flag Image
         ctx.save();
-        ctx.globalAlpha = 0.25;
+        ctx.globalAlpha = 0.35;
         ctx.drawImage(bannerImg, 0, 0, 1200, 675);
         ctx.restore();
 
-        // Draw Cyan Futuristic Border
+        // Cyan Border Frame
         ctx.strokeStyle = "#00f0ff";
         ctx.lineWidth = 6;
         ctx.strokeRect(20, 20, 1160, 635);
@@ -696,7 +779,7 @@
         ctx.fillStyle = "#8a99ad";
         ctx.fillText("COMMUNITY EVALUATION CARD", 60, 115);
 
-        // Draw Participant X Handle Box
+        // Participant X Handle Box
         ctx.fillStyle = "rgba(0, 240, 255, 0.1)";
         ctx.strokeStyle = "rgba(0, 240, 255, 0.4)";
         ctx.lineWidth = 2;
@@ -705,17 +788,15 @@
         ctx.fill();
         ctx.stroke();
 
-        // Draw X (Twitter) Logo inside Handle Box
         ctx.fillStyle = "#ffffff";
         ctx.font = "900 28px sans-serif";
         ctx.fillText("𝕏", 90, 205);
 
-        // User Handle Text
         ctx.font = "600 26px 'JetBrains Mono', monospace";
         ctx.fillStyle = "#00f0ff";
         ctx.fillText(res.username, 140, 205);
 
-        // Display Score Main Block
+        // Display Score
         ctx.font = "900 120px 'Orbitron', sans-serif";
         ctx.fillStyle = "#ffffff";
         ctx.fillText(`${res.score}`, 60, 370);
@@ -724,7 +805,6 @@
         ctx.fillStyle = "#8a99ad";
         ctx.fillText(`/ ${res.total}`, 220, 370);
 
-        // Percentage Indicator
         ctx.fillStyle = "rgba(0, 255, 102, 0.15)";
         ctx.beginPath();
         ctx.roundRect(60, 410, 200, 50, 8);
@@ -734,32 +814,95 @@
         ctx.fillStyle = "#00ff66";
         ctx.fillText(`SCORE: ${res.percentage}%`, 80, 444);
 
-        // Performance Assessment Message
         ctx.font = "700 28px 'Space Grotesk', sans-serif";
         ctx.fillStyle = "#f0f4f8";
         ctx.fillText(`"${res.message}"`, 60, 520);
 
-        // Verification Result ID Footer
         ctx.font = "600 16px 'JetBrains Mono', monospace";
         ctx.fillStyle = "#8a99ad";
         ctx.fillText(`VERIFIED RESULT ID: ${res.uid}`, 60, 600);
 
-        // Export Canvas to Image
         state.generatedImageDataUrl = canvas.toDataURL('image/png');
         document.getElementById('result-card-preview').src = state.generatedImageDataUrl;
 
         navigateToScreen('screen-result');
       };
+    }
 
-      // Fallback if cross-origin image fails load
-      bannerImg.onerror = () => {
-        bannerImg.onload();
+    /* Admin Operations */
+    function verifyAdminPass() {
+      const pass = document.getElementById('admin-pass-input').value;
+      if (pass === 'admin123') {
+        renderAdminDashboard();
+        navigateToScreen('screen-admin-dash');
+      } else {
+        showToast("Incorrect passcode.");
+      }
+    }
+
+    function renderAdminDashboard() {
+      document.getElementById('admin-q-count').innerText = questionDatabase.length;
+      const container = document.getElementById('admin-questions-list');
+      container.innerHTML = '';
+
+      questionDatabase.forEach((q, idx) => {
+        const item = document.createElement('div');
+        item.className = 'admin-question-item';
+        item.innerHTML = `
+          <div class="admin-q-header">
+            <strong>#${idx + 1}. ${q.question}</strong>
+            <button onclick="deleteQuestion(${q.id})" class="btn btn-danger" style="width:auto; padding:4px 10px; font-size:0.75rem;">Delete</button>
+          </div>
+          <div style="font-size:0.85rem; color:var(--accent-green);">✓ ${q.correctText}</div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function addNewQuestionAdmin() {
+      const qText = document.getElementById('new-q-text').value.trim();
+      const correctText = document.getElementById('new-q-correct').value.trim();
+      const d1 = document.getElementById('new-q-d1').value.trim();
+      const d2 = document.getElementById('new-q-d2').value.trim();
+      const d3 = document.getElementById('new-q-d3').value.trim();
+
+      if (!qText || !correctText || !d1 || !d2 || !d3) {
+        return showToast("Please fill out all question fields.");
+      }
+
+      const newQ = {
+        id: Date.now(),
+        targetPosition: 0,
+        question: qText,
+        correctText: correctText,
+        distractors: [d1, d2, d3],
+        active: true
       };
+
+      questionDatabase.push(newQ);
+      saveQuestions();
+      renderAdminDashboard();
+
+      // Reset fields
+      document.getElementById('new-q-text').value = '';
+      document.getElementById('new-q-correct').value = '';
+      document.getElementById('new-q-d1').value = '';
+      document.getElementById('new-q-d2').value = '';
+      document.getElementById('new-q-d3').value = '';
+
+      showToast("Question added successfully!");
+    }
+
+    function deleteQuestion(id) {
+      questionDatabase = questionDatabase.filter(q => q.id !== id);
+      saveQuestions();
+      renderAdminDashboard();
+      showToast("Question deleted.");
     }
 
     document.getElementById('btn-share-x').addEventListener('click', () => {
       if (!state.currentResult) return;
-      const text = `I just scored ${state.currentResult.score}/20 (${state.currentResult.percentage}%) on the Axis Robotics: The Basics Quiz!\n\nCheck out my score verification card.\n\n@AxisRobotics`;
+      const text = `I just scored ${state.currentResult.score}/${state.currentResult.total} (${state.currentResult.percentage}%) on the Axis Robotics: The Basics Quiz!\n\nCheck out my score verification card.\n\n@AxisRobotics`;
       window.open(`https://x.com/intent/post?text=${encodeURIComponent(text)}`, '_blank');
     });
 
@@ -776,10 +919,9 @@
       showToast("Link copied to clipboard!");
     });
 
-    // Initialize Images
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('banner-img-element').src = AXIS_IMAGE_SRC;
-      document.getElementById('bg-watermark').style.backgroundImage = `url('${AXIS_IMAGE_SRC}')`;
+      document.getElementById('banner-img-element').src = EMBEDDED_AXIS_IMAGE;
+      document.getElementById('bg-watermark').style.backgroundImage = `url('${EMBEDDED_AXIS_IMAGE}')`;
       document.getElementById('btn-start-landing').addEventListener('click', () => navigateToScreen('screen-signup'));
     });
   </script>
