@@ -446,7 +446,7 @@
         
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <button id="btn-start-landing" class="btn btn-primary">
-            Start Quiz
+            Start 20-Question Quiz
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </button>
           
@@ -615,7 +615,17 @@
       { id: 7, targetPosition: 3, question: "Which blockchain does Axis Robotics run on?", correctText: "Base", distractors: ["Bitcoin", "Ethereum mainnet", "Solana"], active: true },
       { id: 8, targetPosition: 1, question: "Why put contribution records on-chain at all?", correctText: "To create a verifiable, traceable record of who contributed which data and its quality, supporting attribution/rewards", distractors: ["To speed up simulation rendering", "For tax purposes", "It's required by app stores"], active: true },
       { id: 9, targetPosition: 0, question: "What's the \"Simulation Singularity\" in the Axis ecosystem?", correctText: "A community group focused on turning human intelligence into robot intelligence", distractors: ["A funding round", "A bug in the simulator", "A competing project"], active: true },
-      { id: 10, targetPosition: 2, question: "What's the big-picture claim Axis makes about who should build robot intelligence?", correctText: "It should be built by a broad, decentralized network of everyday contributors, not a few", distractors: ["Only AI companies with GPUs", "Only elite research labs", "Only hardware manufacturers"], active: true }
+      { id: 10, targetPosition: 2, question: "What's the big-picture claim Axis makes about who should build robot intelligence?", correctText: "It should be built by a broad, decentralized network of everyday contributors, not a few big labs", distractors: ["Only AI companies with GPUs", "Only elite research labs", "Only hardware manufacturers"], active: true },
+      { id: 11, targetPosition: 1, question: "What role do VLA (Vision-Language-Action) models play in robotics?", correctText: "They allow robots to understand visual inputs and execute physical movement from natural language commands", distractors: ["They process database queries", "They design physical robot chassis", "They render 3D browser graphics"], active: true },
+      { id: 12, targetPosition: 0, question: "Why is browser-based teleoperation critical for scaling physical AI?", correctText: "It lowers the friction of entry so anyone with internet access can provide training demonstrations", distractors: ["It runs faster than native desktop applications", "It replaces the need for GPUs", "It bypasses web security protocols"], active: true },
+      { id: 13, targetPosition: 3, question: "What type of sensory data is emphasized in egocentric mobile capture?", correctText: "First-person spatial motion tracking and hand pose trajectories", distractors: ["Thermal heat maps", "Audio voice commands only", "LIDAR laser scanning"], active: true },
+      { id: 14, targetPosition: 2, question: "How does decentralization help avoid bias in robotic intelligence?", correctText: "By capturing environments and tasks from varied global environments rather than single lab setups", distractors: ["By letting smart contracts write code", "By randomizing neural network weights", "By restricting data input to verified labs"], active: true },
+      { id: 15, targetPosition: 1, question: "What guarantees the integrity of data submissions in the Axis system?", correctText: "Verifiable telemetry logs and quality validation scoring before dataset inclusion", distractors: ["Proof-of-Work mining", "Manual human review for every second", "Browser cookies"], active: true },
+      { id: 16, targetPosition: 0, question: "What is a spatial trajectory in robot training data?", correctText: "A recorded sequence of joint, hand, or end-effector positions over time", distractors: ["The GPS path of a delivery drone", "A line graph showing token price", "The render distance in a browser"], active: true },
+      { id: 17, targetPosition: 2, question: "Why build on an Ethereum Layer-2 like Base?", correctText: "To achieve low transaction fees and fast confirmation times for frequent data attestation micro-transactions", distractors: ["Because L1 cannot store strings", "To limit accessibility", "Because Base runs client simulations natively"], active: true },
+      { id: 18, targetPosition: 3, question: "What is the primary benefit of simulation-to-real (Sim2Real) transfer in robotics?", correctText: "Training robots rapidly in virtual environments before deploying learned policies to physical hardware", distractors: ["Eliminating physical hardware completely", "Making web games run faster", "Reducing internet bandwidth"], active: true },
+      { id: 19, targetPosition: 1, question: "What happens when a contributor consistently provides high-quality movement trajectories?", correctText: "Their reputation score and potential on-chain attestation weight increase", distractors: ["They get automatic admin permissions", "The simulator speed doubles", "Their X account gets auto-followed"], active: true },
+      { id: 20, targetPosition: 0, question: "What is Axis Robotics' primary mission statement for human-robot interaction?", correctText: "Democratizing robot data capture to accelerate general physical intelligence for all", distractors: ["Replacing all manual labor by next year", "Building proprietary closed-source humanoid hardware", "Creating a web-only virtual reality world"], active: true }
     ];
 
     let questionDatabase = JSON.parse(localStorage.getItem('axis_quiz_questions')) || DEFAULT_QUESTIONS;
@@ -895,10 +905,36 @@
       showToast("Question deleted.");
     }
 
-    document.getElementById('btn-share-x').addEventListener('click', () => {
+    // UPDATED: SHARE TO X WITH QUIZ LINK AND CARD ATTACHMENT PROMPT
+    document.getElementById('btn-share-x').addEventListener('click', async () => {
       if (!state.currentResult) return;
-      const text = `I just scored ${state.currentResult.score}/${state.currentResult.total} (${state.currentResult.percentage}%) on the Axis Robotics: The Basics Quiz!\n\nCheck out my score verification card.\n\n@AxisRobotics`;
-      window.open(`https://x.com/intent/post?text=${encodeURIComponent(text)}`, '_blank');
+      
+      const quizUrl = window.location.href;
+      const shareText = `I scored ${state.currentResult.score}/${state.currentResult.total} (${state.currentResult.percentage}%) on the Axis Robotics: The Basics Quiz!\n\nTake the quiz here: ${quizUrl}\n\n@AxisRobotics`;
+
+      // Trigger standard X web intent with the direct link
+      window.open(`https://x.com/intent/post?text=${encodeURIComponent(shareText)}`, '_blank');
+
+      // Attempt Web Share API for native mobile image sharing if supported
+      if (navigator.canShare && state.generatedImageDataUrl) {
+        try {
+          const blob = await (await fetch(state.generatedImageDataUrl)).blob();
+          const file = new File([blob], `Axis_Quiz_Result_${state.currentResult.username}.png`, { type: 'image/png' });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: 'Axis Robotics Quiz Result',
+              text: shareText,
+              files: [file]
+            });
+          }
+        } catch (e) {
+          // Silent fallback to standard download prompt if native file sharing is canceled or unsupported
+        }
+      } else {
+        showToast("X web intent opened! Image downloaded to attach.");
+        // Auto download the image so user can easily attach it to their post
+        document.getElementById('btn-download-card').click();
+      }
     });
 
     document.getElementById('btn-download-card').addEventListener('click', () => {
@@ -910,7 +946,7 @@
     });
 
     document.getElementById('btn-copy-link').addEventListener('click', () => {
-      navigator.clipboard.writeText(window.location.origin);
+      navigator.clipboard.writeText(window.location.href);
       showToast("Link copied to clipboard!");
     });
 
