@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Axis Robotics: Advanced Technical Quiz</title>
+  <title>Axis Robotics: The Basics Quiz</title>
   
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500'><rect width='500' height='500' fill='%23000000'/><g fill='%23ffffff'><rect x='230' y='65' width='40' height='370' rx='5'/><rect x='65' y='230' width='370' height='40' rx='5'/><rect x='230' y='65' width='40' height='370' rx='5' transform='rotate(30 250 250)'/><rect x='230' y='65' width='40' height='370' rx='5' transform='rotate(60 250 250)'/><rect x='230' y='65' width='40' height='370' rx='5' transform='rotate(120 250 250)'/><rect x='230' y='65' width='40' height='370' rx='5' transform='rotate(150 250 250)'/></g></svg>" />
@@ -294,9 +294,9 @@
     .timer-badge {
       font-family: var(--font-code);
       font-weight: 700;
-      color: var(--accent-red);
-      background: rgba(255, 51, 102, 0.1);
-      border: 1px solid var(--accent-red);
+      color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.1);
+      border: 1px solid var(--accent-cyan-glow);
       padding: 4px 10px;
       border-radius: 6px;
     }
@@ -393,6 +393,21 @@
       gap: 12px;
     }
 
+    .admin-question-item {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .admin-q-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
     #toast {
       position: fixed;
       bottom: 20px;
@@ -436,13 +451,17 @@
           <div class="logo-text">AXIS <span>ROBOTICS</span></div>
         </div>
         
-        <h1 style="font-family: var(--font-heading); font-size: 1.5rem; text-align: center; margin-bottom: 8px;">ADVANCED TECHNICAL QUIZ</h1>
+        <h1 style="font-family: var(--font-heading); font-size: 1.5rem; text-align: center; margin-bottom: 8px;">THE BASICS QUIZ</h1>
         <p style="color: var(--text-muted); font-size: 0.9rem; text-align: center; margin-bottom: 24px;">Test your knowledge on physical AI, browser telemetry, kinematics, and Base protocol integration. <strong>30 seconds per question.</strong></p>
         
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <button id="btn-start-landing" class="btn btn-primary">
-            Start 20-Question Quiz
+            Start Quiz
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+          
+          <button onclick="navigateToScreen('screen-admin-login')" class="btn btn-secondary" style="font-size: 0.8rem; padding: 12px;">
+            ⚙️ Admin Portal
           </button>
         </div>
       </div>
@@ -523,16 +542,80 @@
       </div>
     </div>
 
+    <!-- SCREEN 5: ADMIN LOGIN -->
+    <div id="screen-admin-login" class="screen">
+      <div class="glass-card">
+        <h2 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 8px; color: var(--accent-cyan);">ADMIN ACCESS</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Enter secret passcode to manage quiz questions.</p>
+        
+        <div class="input-group">
+          <input type="password" id="admin-pass-input" class="input-field" placeholder="Passcode (Default: admin123)" />
+        </div>
+
+        <div style="display: flex; gap: 12px;">
+          <button onclick="navigateToScreen('screen-landing')" class="btn btn-secondary" style="flex:1;">Cancel</button>
+          <button onclick="verifyAdminPass()" class="btn btn-primary" style="flex:1;">Login</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 6: ADMIN DASHBOARD (QUESTION MANAGER) -->
+    <div id="screen-admin-dash" class="screen">
+      <div class="glass-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--accent-cyan);">QUESTION MANAGER</h2>
+          <button onclick="navigateToScreen('screen-landing')" class="btn btn-secondary" style="width: auto; padding: 6px 14px; font-size: 0.75rem;">Exit</button>
+        </div>
+
+        <!-- Add Question Form -->
+        <div style="background: rgba(0,240,255,0.05); border: 1px solid var(--accent-cyan-glow); padding: 16px; border-radius: 12px; margin-bottom: 24px;">
+          <h3 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 12px; color: #fff;">ADD NEW QUESTION</h3>
+          
+          <div class="input-group">
+            <label class="input-label">Question Text</label>
+            <input type="text" id="new-q-text" class="input-field" placeholder="Enter question..." />
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" style="color: var(--accent-green);">Correct Answer</label>
+            <input type="text" id="new-q-correct" class="input-field" placeholder="Correct answer text..." />
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" style="color: var(--text-muted);">Distractor 1</label>
+            <input type="text" id="new-q-d1" class="input-field" placeholder="Wrong option 1..." />
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" style="color: var(--text-muted);">Distractor 2</label>
+            <input type="text" id="new-q-d2" class="input-field" placeholder="Wrong option 2..." />
+          </div>
+
+          <div class="input-group">
+            <label class="input-label" style="color: var(--text-muted);">Distractor 3</label>
+            <input type="text" id="new-q-d3" class="input-field" placeholder="Wrong option 3..." />
+          </div>
+
+          <button onclick="addNewQuestionAdmin()" class="btn btn-primary">+ Save Question</button>
+        </div>
+
+        <!-- Question List -->
+        <h3 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 12px;">ACTIVE QUESTIONS (<span id="admin-q-count">0</span>)</h3>
+        <div id="admin-questions-list"></div>
+      </div>
+    </div>
+
   </div>
 
   <div id="toast">Link copied to clipboard!</div>
 
   <script>
-    const EMBEDDED_AXIS_IMAGE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='675' viewBox='0 0 1200 675'><rect width='1200' height='675' fill='%23090d14'/><g opacity='0.2'><line x1='0' y1='0' x2='1200' y2='675' stroke='%2300f0ff' stroke-width='2'/><line x1='1200' y1='0' x2='0' y2='675' stroke='%2300f0ff' stroke-width='2'/></g><rect x='200' y='180' width='800' height='315' fill='%23000000' rx='12' stroke='%2300f0ff' stroke-width='3'/><g transform='translate(350,337) scale(0.4)' fill='%23ffffff'><rect x='-20' y='-185' width='40' height='370' rx='5'/><rect x='-185' y='-20' width='370' height='40' rx='5'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(30)'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(60)'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(120)'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(150)'/></g><text x='460' y='325' fill='%23ffffff' font-family='sans-serif' font-weight='900' font-size='56' letter-spacing='4'>AXIS</text><text x='460' y='385' fill='%23ffffff' font-family='sans-serif' font-weight='900' font-size='56' letter-spacing='4'>ROBOTICS</text><text x='460' y='435' fill='%2300f0ff' font-family='sans-serif' font-weight='700' font-size='22' letter-spacing='6'>ADVANCED EVALUATION COMPLETED</text></svg>";
+    const ADMIN_PASSCODE = "admin123";
+    const EMBEDDED_AXIS_IMAGE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='675' viewBox='0 0 1200 675'><rect width='1200' height='675' fill='%23090d14'/><g opacity='0.2'><line x1='0' y1='0' x2='1200' y2='675' stroke='%2300f0ff' stroke-width='2'/><line x1='1200' y1='0' x2='0' y2='675' stroke='%2300f0ff' stroke-width='2'/></g><rect x='200' y='180' width='800' height='315' fill='%23000000' rx='12' stroke='%2300f0ff' stroke-width='3'/><g transform='translate(350,337) scale(0.4)' fill='%23ffffff'><rect x='-20' y='-185' width='40' height='370' rx='5'/><rect x='-185' y='-20' width='370' height='40' rx='5'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(30)'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(60)'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(120)'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(150)'/></g><text x='460' y='325' fill='%23ffffff' font-family='sans-serif' font-weight='900' font-size='56' letter-spacing='4'>AXIS</text><text x='460' y='385' fill='%23ffffff' font-family='sans-serif' font-weight='900' font-size='56' letter-spacing='4'>ROBOTICS</text><text x='460' y='435' fill='%2300f0ff' font-family='sans-serif' font-weight='700' font-size='22' letter-spacing='6'>EVALUATION COMPLETED</text></svg>";
 
-    // HARDER QUESTIONS WITH HOMOGENEOUS OPTION LENGTHS AND 30S TIMER
     const ADVANCED_QUESTIONS = [
       {
+        id: 1,
         question: "Which fundamental bottleneck in physical AI deployment does Axis Robotics primarily target with its decentralized architecture?",
         correctText: "The severe scarcity of diverse, real-world cross-embodiment demonstration trajectories required for robust model generalization.",
         distractors: [
@@ -542,6 +625,7 @@
         ]
       },
       {
+        id: 2,
         question: "What is the primary role of the Compounding Data Engine within the Axis decentralized ecosystem?",
         correctText: "Establishing a self-sustaining feedback loop where crowd-sourced trajectories continuously train and refine physical AI models.",
         distractors: [
@@ -551,6 +635,7 @@
         ]
       },
       {
+        id: 3,
         question: "How does browser-based teleoperation solve data acquisition scale without physical robot ownership?",
         correctText: "It allows human operators to stream spatial control inputs into virtual environments via WebGL interfaces.",
         distractors: [
@@ -560,6 +645,7 @@
         ]
       },
       {
+        id: 4,
         question: "What technical mechanism processes raw egocentric mobile spatial data into training-ready trajectories?",
         correctText: "Spatial temporal alignment algorithms filter noise, smooth pose sequences, and normalize coordinate frames.",
         distractors: [
@@ -569,6 +655,7 @@
         ]
       },
       {
+        id: 5,
         question: "Which neural network architecture is primarily targeted for optimization using Axis dataset pipelines?",
         correctText: "Vision-Language-Action (VLA) models designed to output robotic motor actions directly from perceptual inputs.",
         distractors: [
@@ -578,6 +665,7 @@
         ]
       },
       {
+        id: 6,
         question: "Why is the Base blockchain specifically utilized for attestation within the Axis platform?",
         correctText: "It delivers scalable Ethereum L2 security with low transaction fees necessary for high-frequency data attestation.",
         distractors: [
@@ -587,6 +675,7 @@
         ]
       },
       {
+        id: 7,
         question: "What function do on-chain data attestations serve in decentralized dataset curation?",
         correctText: "They provide an immutable cryptographic log mapping contributor submissions to verified quality validation scores.",
         distractors: [
@@ -596,6 +685,7 @@
         ]
       },
       {
+        id: 8,
         question: "How does egocentric spatial data collection differ fundamentally from synthetic simulator generation?",
         correctText: "It captures organic human biomechanical variances, unstructured real-world physics, and non-deterministic edge cases.",
         distractors: [
@@ -605,6 +695,7 @@
         ]
       },
       {
+        id: 9,
         question: "In VLA model training, what constitutes the \"Action\" component derived from human teleoperation?",
         correctText: "Discrete or continuous end-effector pose trajectories, joint velocities, and gripper actuation state parameters.",
         distractors: [
@@ -614,6 +705,7 @@
         ]
       },
       {
+        id: 10,
         question: "What spatial reference frame challenge arises when translating mobile app wrist tracking to robot control?",
         correctText: "Mapping coordinate frames between human joint limits and non-homologous robotic manipulator joint topologies.",
         distractors: [
@@ -623,6 +715,7 @@
         ]
       },
       {
+        id: 11,
         question: "Which mechanism prevents malicious or low-quality data submissions from corrupting training datasets?",
         correctText: "Automated telemetry validation pipelines that evaluate trajectory smoothness, task success, and anomaly scores.",
         distractors: [
@@ -632,6 +725,7 @@
         ]
       },
       {
+        id: 12,
         question: "What is the core benefit of decentralized data collection over centralized laboratory collection?",
         correctText: "It captures diverse global environments, varied lighting conditions, and distinct localized object interactions.",
         distractors: [
@@ -641,6 +735,7 @@
         ]
       },
       {
+        id: 13,
         question: "How does the Sim2Real gap manifest when deploying browser-trained policies onto physical hardware?",
         correctText: "Discrepancies between idealized simulator physics modeling and real-world friction, compliance, and sensor noise.",
         distractors: [
@@ -650,6 +745,7 @@
         ]
       },
       {
+        id: 14,
         question: "What role does low-latency streaming infrastructure play in web-based robot teleoperation?",
         correctText: "It minimizes input-to-visual feedback lag, allowing human operators to make precise real-time control adjustments.",
         distractors: [
@@ -659,6 +755,7 @@
         ]
       },
       {
+        id: 15,
         question: "What is a major advantage of using egocentric hand-tracking over traditional 2D joystick interfaces?",
         correctText: "It provides intuitive 6-DOF natural movement data that mirrors human hand orientation and dexterity.",
         distractors: [
@@ -668,6 +765,7 @@
         ]
       },
       {
+        id: 16,
         question: "Why is multi-modal data (vision + kinesthetic state) critical for general physical intelligence?",
         correctText: "Robots must correlate visual scene perception with proprioceptive state awareness to execute complex tasks.",
         distractors: [
@@ -677,6 +775,7 @@
         ]
       },
       {
+        id: 17,
         question: "What issue occurs if teleoperation data contains high jitter or uncalibrated latency lag?",
         correctText: "Models learn erratic motor control policies that can cause instability or jerky motion on physical robots.",
         distractors: [
@@ -686,6 +785,7 @@
         ]
       },
       {
+        id: 18,
         question: "How does tokenized attribution incentivize long-term dataset quality in the Axis ecosystem?",
         correctText: "It provides proportional rewards to contributors based on the downstream utility and validation score of their data.",
         distractors: [
@@ -695,6 +795,7 @@
         ]
       },
       {
+        id: 19,
         question: "What is the primary objective of data trajectory filtering in spatial dataset preprocessing?",
         correctText: "Removing non-informative idle frames, correcting sensor drift, and smoothing erratic velocity spikes.",
         distractors: [
@@ -704,6 +805,7 @@
         ]
       },
       {
+        id: 20,
         question: "What does the vision of 'Physical AI' achieve beyond traditional industrial automation?",
         correctText: "Enabling robots to adapt autonomously to novel, unstructured environments rather than scripted paths.",
         distractors: [
@@ -713,6 +815,8 @@
         ]
       }
     ];
+
+    let questionDatabase = JSON.parse(localStorage.getItem('axis_quiz_questions')) || ADVANCED_QUESTIONS;
 
     const state = {
       username: '',
@@ -724,6 +828,10 @@
       timerInterval: null,
       timeLeft: 30
     };
+
+    function saveQuestions() {
+      localStorage.setItem('axis_quiz_questions', JSON.stringify(questionDatabase));
+    }
 
     function shuffleArray(array) {
       const arr = [...array];
@@ -755,10 +863,10 @@
       if (!val.startsWith('@')) val = '@' + val;
       state.username = val;
 
-      state.activeQuizQuestions = shuffleArray(ADVANCED_QUESTIONS).map((q, id) => {
+      state.activeQuizQuestions = shuffleArray(questionDatabase).map((q, id) => {
         const baseOptions = [q.correctText, ...q.distractors];
         return {
-          id: id + 1,
+          id: q.id || id + 1,
           question: q.question,
           options: shuffleArray(baseOptions.map((text) => ({ text, isCorrect: text === q.correctText })))
         };
@@ -906,7 +1014,7 @@
 
         ctx.font = "600 20px 'Space Grotesk', sans-serif";
         ctx.fillStyle = "#8a99ad";
-        ctx.fillText("ADVANCED TECHNICAL CERTIFICATE", 60, 115);
+        ctx.fillText("COMMUNITY EVALUATION CARD", 60, 115);
 
         ctx.fillStyle = "rgba(0, 240, 255, 0.1)";
         ctx.strokeStyle = "rgba(0, 240, 255, 0.4)";
@@ -956,11 +1064,79 @@
       };
     }
 
+    function verifyAdminPass() {
+      const pass = document.getElementById('admin-pass-input').value.trim();
+      if (pass === ADMIN_PASSCODE) {
+        renderAdminDashboard();
+        navigateToScreen('screen-admin-dash');
+        document.getElementById('admin-pass-input').value = '';
+      } else {
+        showToast("Incorrect passcode.");
+      }
+    }
+
+    function renderAdminDashboard() {
+      document.getElementById('admin-q-count').innerText = questionDatabase.length;
+      const container = document.getElementById('admin-questions-list');
+      container.innerHTML = '';
+
+      questionDatabase.forEach((q, idx) => {
+        const item = document.createElement('div');
+        item.className = 'admin-question-item';
+        item.innerHTML = `
+          <div class="admin-q-header">
+            <strong>#${idx + 1}. ${q.question}</strong>
+            <button onclick="deleteQuestion(${q.id})" class="btn btn-danger" style="width:auto; padding:4px 10px; font-size:0.75rem;">Delete</button>
+          </div>
+          <div style="font-size:0.85rem; color:var(--accent-green);">✓ ${q.correctText}</div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function addNewQuestionAdmin() {
+      const qText = document.getElementById('new-q-text').value.trim();
+      const correctText = document.getElementById('new-q-correct').value.trim();
+      const d1 = document.getElementById('new-q-d1').value.trim();
+      const d2 = document.getElementById('new-q-d2').value.trim();
+      const d3 = document.getElementById('new-q-d3').value.trim();
+
+      if (!qText || !correctText || !d1 || !d2 || !d3) {
+        return showToast("Please fill out all question fields.");
+      }
+
+      const newQ = {
+        id: Date.now(),
+        question: qText,
+        correctText: correctText,
+        distractors: [d1, d2, d3]
+      };
+
+      questionDatabase.push(newQ);
+      saveQuestions();
+      renderAdminDashboard();
+
+      document.getElementById('new-q-text').value = '';
+      document.getElementById('new-q-correct').value = '';
+      document.getElementById('new-q-d1').value = '';
+      document.getElementById('new-q-d2').value = '';
+      document.getElementById('new-q-d3').value = '';
+
+      showToast("Question added successfully!");
+    }
+
+    function deleteQuestion(id) {
+      questionDatabase = questionDatabase.filter(q => q.id !== id);
+      saveQuestions();
+      renderAdminDashboard();
+      showToast("Question deleted.");
+    }
+
     document.getElementById('btn-share-x').addEventListener('click', async () => {
       if (!state.currentResult) return;
       
       const quizUrl = window.location.href;
-      const shareText = `I scored ${state.currentResult.score}/${state.currentResult.total} (${state.currentResult.percentage}%) on the Axis Robotics Advanced Technical Quiz!\n\nTake the quiz here: ${quizUrl}\n\n@AxisRobotics`;
+      const shareText = `I scored ${state.currentResult.score}/${state.currentResult.total} (${state.currentResult.percentage}%) on the Axis Robotics: The Basics Quiz!\n\nTake the quiz here: ${quizUrl}\n\n@AxisRobotics`;
 
       window.open(`https://x.com/intent/post?text=${encodeURIComponent(shareText)}`, '_blank');
 
@@ -970,7 +1146,7 @@
           const file = new File([blob], `Axis_Quiz_Result_${state.currentResult.username}.png`, { type: 'image/png' });
           if (navigator.canShare({ files: [file] })) {
             await navigator.share({
-              title: 'Axis Robotics Technical Quiz Result',
+              title: 'Axis Robotics Quiz Result',
               text: shareText,
               files: [file]
             });
