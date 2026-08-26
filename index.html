@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Axis Robotics: The Basics Quiz</title>
   
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -380,7 +379,6 @@
       gap: 12px;
     }
 
-    /* Admin Styles */
     .admin-question-item {
       background: rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -427,11 +425,9 @@
 
   <div id="app-container">
 
-    <!-- SCREEN 1: LANDING PAGE -->
     <div id="screen-landing" class="screen active">
       <div class="glass-card">
         
-        <!-- Embedded Flag Banner -->
         <div class="hero-banner-container">
           <img id="banner-img-element" class="hero-banner-img" alt="Axis Robotics Banner" />
         </div>
@@ -456,7 +452,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 2: X USERNAME SIGNUP -->
     <div id="screen-signup" class="screen">
       <div class="glass-card">
         <div class="logo-box">
@@ -480,7 +475,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 3: QUIZ INTERFACE -->
     <div id="screen-quiz" class="screen">
       <div class="glass-card">
         <div class="quiz-header">
@@ -504,7 +498,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 4: RESULTS & CANVAS DYNAMIC CARD -->
     <div id="screen-result" class="screen">
       <canvas id="result-canvas" width="1200" height="675" style="display: none;"></canvas>
       <img id="result-card-preview" class="generated-card-preview" alt="Axis Robotics Quiz Card" />
@@ -531,11 +524,10 @@
       </div>
     </div>
 
-    <!-- SCREEN 5: ADMIN LOGIN -->
     <div id="screen-admin-login" class="screen">
       <div class="glass-card">
         <h2 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 8px; color: var(--accent-cyan);">ADMIN ACCESS</h2>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Enter the administrator passcode (Default: <code>admin123</code>)</p>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Enter secret passcode to manage quiz questions.</p>
         
         <div class="input-group">
           <input type="password" id="admin-pass-input" class="input-field" placeholder="Passcode" />
@@ -548,7 +540,6 @@
       </div>
     </div>
 
-    <!-- SCREEN 6: ADMIN DASHBOARD (QUESTION MANAGER) -->
     <div id="screen-admin-dash" class="screen">
       <div class="glass-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -556,7 +547,6 @@
           <button onclick="navigateToScreen('screen-landing')" class="btn btn-secondary" style="width: auto; padding: 6px 14px; font-size: 0.75rem;">Exit</button>
         </div>
 
-        <!-- Add Question Form -->
         <div style="background: rgba(0,240,255,0.05); border: 1px solid var(--accent-cyan-glow); padding: 16px; border-radius: 12px; margin-bottom: 24px;">
           <h3 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 12px; color: #fff;">ADD NEW QUESTION</h3>
           
@@ -588,7 +578,6 @@
           <button onclick="addNewQuestionAdmin()" class="btn btn-primary">+ Save Question</button>
         </div>
 
-        <!-- Question List -->
         <h3 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 12px;">ACTIVE QUESTIONS (<span id="admin-q-count">0</span>)</h3>
         <div id="admin-questions-list"></div>
       </div>
@@ -599,7 +588,8 @@
   <div id="toast">Link copied to clipboard!</div>
 
   <script>
-    // Embedded Base64 Axis Robotics Flag Banner Image (Guarantees visible rendering across all environments)
+    const ADMIN_PASSCODE = "admin123";
+    
     const EMBEDDED_AXIS_IMAGE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='675' viewBox='0 0 1200 675'><rect width='1200' height='675' fill='%23090d14'/><g opacity='0.2'><line x1='0' y1='0' x2='1200' y2='675' stroke='%2300f0ff' stroke-width='2'/><line x1='1200' y1='0' x2='0' y2='675' stroke='%2300f0ff' stroke-width='2'/></g><rect x='200' y='180' width='800' height='315' fill='%23000000' rx='12' stroke='%2300f0ff' stroke-width='3'/><path d='M350 337 L310 297 M350 337 L310 377 M350 337 L390 297 M350 337 L390 377 M350 280 L350 394 M293 337 L407 337' stroke='%23ffffff' stroke-width='6' stroke-linecap='round'/><text x='440' y='325' fill='%23ffffff' font-family='sans-serif' font-weight='900' font-size='56' letter-spacing='4'>AXIS</text><text x='440' y='385' fill='%23ffffff' font-family='sans-serif' font-weight='900' font-size='56' letter-spacing='4'>ROBOTICS</text><text x='440' y='435' fill='%2300f0ff' font-family='sans-serif' font-weight='700' font-size='22' letter-spacing='6'>THE FUTURE IS ROBOTICS</text></svg>";
 
     const DEFAULT_QUESTIONS = [
@@ -615,7 +605,6 @@
       { id: 10, targetPosition: 2, question: "What's the big-picture claim Axis makes about who should build robot intelligence?", correctText: "It should be built by a broad, decentralized network of everyday contributors, not a few", distractors: ["Only AI companies with GPUs", "Only elite research labs", "Only hardware manufacturers"], active: true }
     ];
 
-    // Load custom added questions or standard defaults from LocalStorage
     let questionDatabase = JSON.parse(localStorage.getItem('axis_quiz_questions')) || DEFAULT_QUESTIONS;
 
     const state = {
@@ -661,7 +650,6 @@
       if (!val.startsWith('@')) val = '@' + val;
       state.username = val;
 
-      // Prepare quiz questions
       state.activeQuizQuestions = shuffleArray(questionDatabase).map(q => {
         const baseOptions = [];
         let dIdx = 0;
@@ -747,7 +735,6 @@
       generateResultCardImage(state.currentResult);
     }
 
-    /* Dynamic Canvas Image Generator */
     function generateResultCardImage(res) {
       const canvas = document.getElementById('result-canvas');
       const ctx = canvas.getContext('2d');
@@ -763,12 +750,10 @@
         ctx.drawImage(bannerImg, 0, 0, 1200, 675);
         ctx.restore();
 
-        // Cyan Border Frame
         ctx.strokeStyle = "#00f0ff";
         ctx.lineWidth = 6;
         ctx.strokeRect(20, 20, 1160, 635);
 
-        // Header Text
         ctx.font = "900 38px 'Orbitron', sans-serif";
         ctx.fillStyle = "#ffffff";
         ctx.fillText("AXIS", 60, 80);
@@ -779,7 +764,6 @@
         ctx.fillStyle = "#8a99ad";
         ctx.fillText("COMMUNITY EVALUATION CARD", 60, 115);
 
-        // Participant X Handle Box
         ctx.fillStyle = "rgba(0, 240, 255, 0.1)";
         ctx.strokeStyle = "rgba(0, 240, 255, 0.4)";
         ctx.lineWidth = 2;
@@ -796,7 +780,6 @@
         ctx.fillStyle = "#00f0ff";
         ctx.fillText(res.username, 140, 205);
 
-        // Display Score
         ctx.font = "900 120px 'Orbitron', sans-serif";
         ctx.fillStyle = "#ffffff";
         ctx.fillText(`${res.score}`, 60, 370);
@@ -829,12 +812,12 @@
       };
     }
 
-    /* Admin Operations */
     function verifyAdminPass() {
-      const pass = document.getElementById('admin-pass-input').value;
-      if (pass === 'admin123') {
+      const pass = document.getElementById('admin-pass-input').value.trim();
+      if (pass === ADMIN_PASSCODE) {
         renderAdminDashboard();
         navigateToScreen('screen-admin-dash');
+        document.getElementById('admin-pass-input').value = '';
       } else {
         showToast("Incorrect passcode.");
       }
@@ -883,7 +866,6 @@
       saveQuestions();
       renderAdminDashboard();
 
-      // Reset fields
       document.getElementById('new-q-text').value = '';
       document.getElementById('new-q-correct').value = '';
       document.getElementById('new-q-d1').value = '';
