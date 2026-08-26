@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Axis Robotics: The Basics Quiz</title>
   
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500'><rect width='500' height='500' fill='%23000000'/><g fill='%23ffffff'><rect x='230' y='65' width='40' height='370' rx='5'/><rect x='65' y='230' width='370' height='40' rx='5'/><rect x='65' y='230' width='370' height='40' rx='5' transform='rotate(30 250 250)'/><rect x='230' y='65' width='40' height='370' rx='5' transform='rotate(60 250 250)'/><rect x='230' y='65' width='40' height='370' rx='5' transform='rotate(120 250 250)'/><rect x='230' y='65' width='40' height='370' rx='5' transform='rotate(150 250 250)'/></g></svg>" />
 
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
@@ -423,11 +425,19 @@
 
   <div id="app-container">
 
+    <!-- SCREEN 1: LANDING PAGE -->
     <div id="screen-landing" class="screen active">
       <div class="glass-card">
         
+        <!-- Opening Logo Banner with onError fallback handling -->
         <div class="hero-banner-container">
-          <img id="banner-img-element" class="hero-banner-img" alt="Axis Robotics Flag Banner" />
+          <img 
+            id="banner-img-element" 
+            src="./logo.jpg" 
+            alt="Axis Robotics Flag Banner" 
+            class="hero-banner-img" 
+            onerror="this.onerror=null; this.src='logo.jpg'; this.style.opacity='0.8';" 
+          />
         </div>
 
         <div class="logo-box">
@@ -450,6 +460,7 @@
       </div>
     </div>
 
+    <!-- SCREEN 2: X USERNAME SIGNUP -->
     <div id="screen-signup" class="screen">
       <div class="glass-card">
         <div class="logo-box">
@@ -473,6 +484,7 @@
       </div>
     </div>
 
+    <!-- SCREEN 3: QUIZ INTERFACE -->
     <div id="screen-quiz" class="screen">
       <div class="glass-card">
         <div class="quiz-header">
@@ -496,6 +508,7 @@
       </div>
     </div>
 
+    <!-- SCREEN 4: RESULTS & CANVAS DYNAMIC CARD -->
     <div id="screen-result" class="screen">
       <canvas id="result-canvas" width="1200" height="675" style="display: none;"></canvas>
       <img id="result-card-preview" class="generated-card-preview" alt="Axis Robotics Quiz Card" />
@@ -522,6 +535,7 @@
       </div>
     </div>
 
+    <!-- SCREEN 5: ADMIN LOGIN -->
     <div id="screen-admin-login" class="screen">
       <div class="glass-card">
         <h2 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 8px; color: var(--accent-cyan);">ADMIN ACCESS</h2>
@@ -538,6 +552,7 @@
       </div>
     </div>
 
+    <!-- SCREEN 6: ADMIN DASHBOARD -->
     <div id="screen-admin-dash" class="screen">
       <div class="glass-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -589,8 +604,8 @@
     const ADMIN_PASSCODE = "admin123";
 
     // DIRECT LOCAL FILE REFERENCES
-    const OPENING_FLAG_LOGO = "logo.jpg";
-    const ROBOT_CITY_BG = "bg.jpg";
+    const OPENING_FLAG_LOGO = "./logo.jpg";
+    const ROBOT_CITY_BG = "./bg.jpg";
 
     const ADVANCED_QUESTIONS = [
       {
