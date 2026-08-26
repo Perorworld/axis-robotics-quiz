@@ -11,20 +11,20 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --bg-dark: #07090e;
-      --bg-card: rgba(15, 20, 32, 0.88);
-      --bg-card-border: rgba(0, 240, 255, 0.2);
+      --bg-card: rgba(7, 9, 14, 0.88);
+      --bg-card-border: rgba(0, 240, 255, 0.4);
       --accent-cyan: #00f0ff;
-      --accent-cyan-glow: rgba(0, 240, 255, 0.35);
+      --accent-cyan-glow: rgba(0, 240, 255, 0.4);
       --accent-purple: #7000ff;
       --accent-green: #00ff66;
       --accent-red: #ff3366;
-      --text-main: #f0f4f8;
-      --text-muted: #8a99ad;
+      --text-main: #ffffff;
+      --text-muted: #e2e8f0;
       --font-heading: 'Orbitron', sans-serif;
       --font-body: 'Space Grotesk', sans-serif;
       --font-code: 'JetBrains Mono', monospace;
@@ -41,6 +41,10 @@
 
     body {
       background-color: var(--bg-dark);
+      background-image: linear-gradient(rgba(7, 9, 14, 0.55), rgba(7, 9, 14, 0.65)), url('bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
       color: var(--text-main);
       font-family: var(--font-body);
       min-height: 100vh;
@@ -52,45 +56,13 @@
       position: relative;
     }
 
-    .bg-grid {
+    .bg-overlay-tint {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-image: 
-        linear-gradient(to right, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      z-index: -3;
-      pointer-events: none;
-    }
-
-    .bg-logo-watermark {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100vw;
-      height: 100vh;
-      background-size: cover;
-      background-position: center;
-      opacity: 0.12;
-      filter: grayscale(80%) contrast(120%) blur(2px);
-      z-index: -2;
-      pointer-events: none;
-    }
-
-    .bg-glow-top {
-      position: fixed;
-      top: 5%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 550px;
-      height: 550px;
-      background: radial-gradient(circle, var(--accent-cyan-glow) 0%, rgba(7,9,14,0) 70%);
-      opacity: 0.35;
-      filter: blur(80px);
+      background: radial-gradient(circle at center, rgba(0, 240, 255, 0.08) 0%, rgba(7, 9, 14, 0.7) 100%);
       z-index: -1;
       pointer-events: none;
     }
@@ -132,11 +104,11 @@
     .glass-card {
       background: var(--bg-card);
       border: 1px solid var(--bg-card-border);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-radius: 20px;
       padding: 32px 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.85), 0 0 20px rgba(0, 240, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15);
       position: relative;
       overflow: hidden;
     }
@@ -147,19 +119,19 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 2px;
+      height: 3px;
       background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
     }
 
     .hero-banner-container {
       width: 100%;
-      height: 180px;
+      height: 200px;
       border-radius: 14px;
       overflow: hidden;
-      border: 1px solid rgba(0, 240, 255, 0.3);
+      border: 1px solid rgba(0, 240, 255, 0.4);
       margin-bottom: 24px;
       position: relative;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
       background: #000;
     }
 
@@ -176,16 +148,17 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .logo-text {
       font-family: var(--font-heading);
-      font-size: 1.1rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      color: var(--text-main);
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 2.5px;
+      color: #ffffff;
       text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
     }
 
     .logo-text span {
@@ -199,7 +172,7 @@
       border-radius: 12px;
       font-family: var(--font-heading);
       font-size: 0.95rem;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 1px;
       text-transform: uppercase;
       cursor: pointer;
@@ -214,31 +187,32 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent-cyan), #00a8ff);
-      color: #000;
-      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+      background: linear-gradient(135deg, #00f0ff, #00a8ff);
+      color: #000000;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
     }
 
     .btn-primary:hover:not(:disabled) {
-      box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.8);
       transform: translateY(-2px);
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: var(--text-main);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: #ffffff;
+      text-shadow: 0 1px 2px #000;
     }
 
     .btn-secondary:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(0, 240, 255, 0.15);
       border-color: var(--accent-cyan);
     }
 
     .btn-danger {
-      background: rgba(255, 51, 102, 0.15);
+      background: rgba(255, 51, 102, 0.2);
       border: 1px solid var(--accent-red);
-      color: var(--accent-red);
+      color: #ff6688;
     }
 
     .input-group {
@@ -248,20 +222,22 @@
     .input-label {
       display: block;
       font-family: var(--font-heading);
-      font-size: 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 700;
       letter-spacing: 1.5px;
       color: var(--accent-cyan);
       margin-bottom: 8px;
       text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
     }
 
     .input-field {
       width: 100%;
       padding: 14px 16px;
-      background: rgba(5, 8, 15, 0.85);
-      border: 1px solid rgba(0, 240, 255, 0.25);
+      background: rgba(3, 7, 18, 0.95);
+      border: 1px solid rgba(0, 240, 255, 0.4);
       border-radius: 12px;
-      color: var(--text-main);
+      color: #ffffff;
       font-family: var(--font-code);
       font-size: 1rem;
       outline: none;
@@ -270,7 +246,7 @@
 
     .input-field:focus {
       border-color: var(--accent-cyan);
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+      box-shadow: 0 0 18px rgba(0, 240, 255, 0.4);
     }
 
     .quiz-header {
@@ -281,31 +257,33 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       font-family: var(--font-code);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
     }
 
     .quiz-step-indicator {
       color: var(--accent-cyan);
-      font-weight: 600;
+      font-weight: 800;
+      letter-spacing: 1px;
     }
 
     .timer-badge {
       font-family: var(--font-code);
-      font-weight: 700;
+      font-weight: 800;
       color: var(--accent-cyan);
-      background: rgba(0, 240, 255, 0.1);
-      border: 1px solid var(--accent-cyan-glow);
-      padding: 4px 10px;
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid var(--accent-cyan);
+      padding: 4px 12px;
       border-radius: 6px;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
     }
 
     .progress-bar-track {
       width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 3px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
       overflow: hidden;
     }
 
@@ -313,16 +291,18 @@
       height: 100%;
       width: 0%;
       background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
-      border-radius: 3px;
+      border-radius: 4px;
       transition: width var(--transition-smooth);
     }
 
     .question-card-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      line-height: 1.45;
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.5;
       margin-bottom: 24px;
+      color: #ffffff;
       min-height: 56px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
 
     .options-grid {
@@ -335,54 +315,58 @@
     .option-btn {
       display: flex;
       align-items: flex-start;
-      padding: 14px 16px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 16px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 12px;
-      color: var(--text-main);
+      color: #ffffff;
       font-family: var(--font-body);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.4;
       cursor: pointer;
       transition: all var(--transition-fast);
+      text-shadow: 0 1px 2px #000;
     }
 
     .option-btn:hover {
-      background: rgba(0, 240, 255, 0.05);
-      border-color: rgba(0, 240, 255, 0.4);
-    }
-
-    .option-btn.selected {
-      background: rgba(0, 240, 255, 0.12);
+      background: rgba(0, 240, 255, 0.15);
       border-color: var(--accent-cyan);
     }
 
+    .option-btn.selected {
+      background: rgba(0, 240, 255, 0.22);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    }
+
     .option-badge {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: var(--font-heading);
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--accent-cyan);
       margin-right: 14px;
       flex-shrink: 0;
     }
 
     .option-btn.selected .option-badge {
       background: var(--accent-cyan);
-      color: #000;
+      color: #000000;
     }
 
     .generated-card-preview {
       width: 100%;
       border-radius: 16px;
-      border: 1px solid var(--accent-cyan-glow);
-      box-shadow: 0 0 35px rgba(0, 240, 255, 0.2);
+      border: 2px solid var(--accent-cyan);
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.3);
       margin-bottom: 24px;
       display: block;
     }
@@ -394,8 +378,8 @@
     }
 
     .admin-question-item {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(3, 7, 18, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 12px;
       padding: 16px;
       margin-bottom: 12px;
@@ -417,10 +401,10 @@
       color: #000;
       font-family: var(--font-heading);
       font-size: 0.8rem;
-      font-weight: 700;
+      font-weight: 800;
       padding: 12px 24px;
       border-radius: 30px;
-      box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
       transition: transform var(--transition-smooth);
       z-index: 9999;
       pointer-events: none;
@@ -433,9 +417,7 @@
 </head>
 <body>
 
-  <div class="bg-grid"></div>
-  <div class="bg-logo-watermark" id="bg-watermark"></div>
-  <div class="bg-glow-top"></div>
+  <div class="bg-overlay-tint"></div>
 
   <div id="app-container">
 
@@ -444,15 +426,15 @@
       <div class="glass-card">
         
         <div class="hero-banner-container">
-          <img id="banner-img-element" class="hero-banner-img" alt="Axis Robotics Banner" />
+          <img id="banner-img-element" class="hero-banner-img" src="bg.jpg" alt="Axis Robotics City" />
         </div>
 
         <div class="logo-box">
           <div class="logo-text">AXIS <span>ROBOTICS</span></div>
         </div>
         
-        <h1 style="font-family: var(--font-heading); font-size: 1.5rem; text-align: center; margin-bottom: 8px;">THE BASICS QUIZ</h1>
-        <p style="color: var(--text-muted); font-size: 0.9rem; text-align: center; margin-bottom: 24px;">Test your knowledge on physical AI, browser telemetry, kinematics, and Base protocol integration. <strong>30 seconds per question.</strong></p>
+        <h1 style="font-family: var(--font-heading); font-size: 1.5rem; text-align: center; margin-bottom: 8px; text-shadow: 0 2px 4px #000;">THE BASICS QUIZ</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem; text-align: center; margin-bottom: 24px; line-height: 1.5; text-shadow: 0 1px 2px #000;">Test your knowledge on physical AI, browser telemetry, kinematics, and Base protocol integration. <strong style="color: var(--accent-cyan);">30 seconds per question.</strong></p>
         
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <button id="btn-start-landing" class="btn btn-primary">
@@ -474,8 +456,8 @@
           <div class="logo-text">AXIS <span>ROBOTICS</span></div>
         </div>
 
-        <h2 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 8px;">COMMUNITY IDENTIFICATION</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px;">Enter your X handle to generate your quiz score certificate.</p>
+        <h2 style="font-family: var(--font-heading); font-size: 1.25rem; margin-bottom: 8px; text-shadow: 0 2px 4px #000;">COMMUNITY IDENTIFICATION</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px;">Enter your X handle to generate your quiz score certificate.</p>
 
         <form id="form-signup" onsubmit="event.preventDefault(); handleSignupSubmit();">
           <div class="input-group">
@@ -546,7 +528,7 @@
     <div id="screen-admin-login" class="screen">
       <div class="glass-card">
         <h2 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 8px; color: var(--accent-cyan);">ADMIN ACCESS</h2>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Enter passcode to manage quiz questions.</p>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Enter passcode to manage quiz questions.</p>
         
         <div class="input-group">
           <input type="password" id="admin-pass-input" class="input-field" placeholder="Enter passcode" />
@@ -568,7 +550,7 @@
         </div>
 
         <!-- Add Question Form -->
-        <div style="background: rgba(0,240,255,0.05); border: 1px solid var(--accent-cyan-glow); padding: 16px; border-radius: 12px; margin-bottom: 24px;">
+        <div style="background: rgba(0,240,255,0.08); border: 1px solid var(--accent-cyan-glow); padding: 16px; border-radius: 12px; margin-bottom: 24px;">
           <h3 style="font-family: var(--font-heading); font-size: 0.9rem; margin-bottom: 12px; color: #fff;">ADD NEW QUESTION</h3>
           
           <div class="input-group">
@@ -611,7 +593,7 @@
 
   <script>
     const ADMIN_PASSCODE = "admin123";
-    const EMBEDDED_AXIS_IMAGE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='675' viewBox='0 0 1200 675'><rect width='1200' height='675' fill='%23090d14'/><g opacity='0.2'><line x1='0' y1='0' x2='1200' y2='675' stroke='%2300f0ff' stroke-width='2'/><line x1='1200' y1='0' x2='0' y2='675' stroke='%2300f0ff' stroke-width='2'/></g><rect x='200' y='180' width='800' height='315' fill='%23000000' rx='12' stroke='%2300f0ff' stroke-width='3'/><g transform='translate(350,337) scale(0.4)' fill='%23ffffff'><rect x='-20' y='-185' width='40' height='370' rx='5'/><rect x='-185' y='-20' width='370' height='40' rx='5'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(30)'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(60)'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(120)'/><rect x='-20' y='-185' width='40' height='370' rx='5' transform='rotate(150)'/></g><text x='460' y='325' fill='%23ffffff' font-family='sans-serif' font-weight='900' font-size='56' letter-spacing='4'>AXIS</text><text x='460' y='385' fill='%23ffffff' font-family='sans-serif' font-weight='900' font-size='56' letter-spacing='4'>ROBOTICS</text><text x='460' y='435' fill='%2300f0ff' font-family='sans-serif' font-weight='700' font-size='22' letter-spacing='6'>EVALUATION COMPLETED</text></svg>";
+    const BACKGROUND_IMAGE_SRC = "bg.jpg";
 
     const ADVANCED_QUESTIONS = [
       {
@@ -902,7 +884,7 @@
         timerEl.style.borderColor = 'var(--accent-red)';
       } else {
         timerEl.style.color = 'var(--accent-cyan)';
-        timerEl.style.borderColor = 'var(--accent-cyan-glow)';
+        timerEl.style.borderColor = 'var(--accent-cyan)';
       }
     }
 
@@ -910,7 +892,7 @@
       showToast("Time's up for this question!");
       const q = state.activeQuizQuestions[state.currentQuestionIndex];
       if (state.userAnswers[q.id] === undefined) {
-        state.userAnswers[q.id] = 0; // Default selection if timed out
+        state.userAnswers[q.id] = 0;
       }
       advanceQuestion();
     }
@@ -991,14 +973,14 @@
       const canvas = document.getElementById('result-canvas');
       const ctx = canvas.getContext('2d');
       const bannerImg = new Image();
-      bannerImg.src = EMBEDDED_AXIS_IMAGE;
+      bannerImg.src = BACKGROUND_IMAGE_SRC;
 
       bannerImg.onload = () => {
         ctx.fillStyle = "#07090e";
         ctx.fillRect(0, 0, 1200, 675);
 
         ctx.save();
-        ctx.globalAlpha = 0.35;
+        ctx.globalAlpha = 0.45;
         ctx.drawImage(bannerImg, 0, 0, 1200, 675);
         ctx.restore();
 
@@ -1013,11 +995,11 @@
         ctx.fillText("ROBOTICS", 175, 80);
 
         ctx.font = "600 20px 'Space Grotesk', sans-serif";
-        ctx.fillStyle = "#8a99ad";
+        ctx.fillStyle = "#e2e8f0";
         ctx.fillText("COMMUNITY EVALUATION CARD", 60, 115);
 
-        ctx.fillStyle = "rgba(0, 240, 255, 0.1)";
-        ctx.strokeStyle = "rgba(0, 240, 255, 0.4)";
+        ctx.fillStyle = "rgba(7, 9, 14, 0.85)";
+        ctx.strokeStyle = "rgba(0, 240, 255, 0.6)";
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.roundRect(60, 160, 450, 70, 12);
@@ -1037,24 +1019,27 @@
         ctx.fillText(`${res.score}`, 60, 370);
 
         ctx.font = "700 45px 'Orbitron', sans-serif";
-        ctx.fillStyle = "#8a99ad";
+        ctx.fillStyle = "#e2e8f0";
         ctx.fillText(`/ ${res.total}`, 220, 370);
 
-        ctx.fillStyle = "rgba(0, 255, 102, 0.15)";
+        ctx.fillStyle = "rgba(0, 255, 102, 0.25)";
+        ctx.strokeStyle = "#00ff66";
+        ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.roundRect(60, 410, 200, 50, 8);
         ctx.fill();
+        ctx.stroke();
 
         ctx.font = "700 24px 'JetBrains Mono', monospace";
         ctx.fillStyle = "#00ff66";
         ctx.fillText(`SCORE: ${res.percentage}%`, 80, 444);
 
         ctx.font = "700 28px 'Space Grotesk', sans-serif";
-        ctx.fillStyle = "#f0f4f8";
+        ctx.fillStyle = "#ffffff";
         ctx.fillText(`"${res.message}"`, 60, 520);
 
         ctx.font = "600 16px 'JetBrains Mono', monospace";
-        ctx.fillStyle = "#8a99ad";
+        ctx.fillStyle = "#e2e8f0";
         ctx.fillText(`VERIFIED RESULT ID: ${res.uid}`, 60, 600);
 
         state.generatedImageDataUrl = canvas.toDataURL('image/png');
@@ -1174,8 +1159,6 @@
     });
 
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('banner-img-element').src = EMBEDDED_AXIS_IMAGE;
-      document.getElementById('bg-watermark').style.backgroundImage = `url('${EMBEDDED_AXIS_IMAGE}')`;
       document.getElementById('btn-start-landing').addEventListener('click', () => navigateToScreen('screen-signup'));
     });
   </script>
